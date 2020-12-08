@@ -22,12 +22,13 @@ public class Cube : MonoBehaviour
         };
 
         faces = new GameObject[6];
+        Vector3 halfSizeVec = Vector3.one * (offsetScale / 2f);
         for (int i = 0; i < 6; i++)
         {
             faces[i] = Instantiate(facePrefab);
             Transform t = faces[i].transform;
             t.parent = this.transform;
-            t.localPosition = offsets[i] * offsetScale;
+            t.localPosition = offsets[i] * offsetScale + halfSizeVec;
             t.localRotation = Quaternion.LookRotation(-offsets[i]);
             t.Rotate(-90,0,0);
         }

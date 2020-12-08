@@ -38,6 +38,7 @@ public class RubiksCube : MonoBehaviour
 
     public void GenerateCubes()
     {
+        Vector3 halfSizeVec = offsetScale * size * Vector3.one;
         for (int z = 0; z < size; z++)
         {
             for (int y = 0; y < size; y++)
@@ -45,7 +46,7 @@ public class RubiksCube : MonoBehaviour
                 for (int x = 0; x < size; x++)
                 {
                     GameObject newObject = Instantiate(cubePrefab, transform);
-                    newObject.transform.localPosition = 2 * offsetScale * new Vector3(x, y, z);
+                    newObject.transform.localPosition = 2 * offsetScale * new Vector3(x, y, z) - halfSizeVec;
                     cubes[x + y * size + z * size * size] = newObject;
                     //cubes[x + y * size + z * size * size].transform.parent = this.transform;
                 }
