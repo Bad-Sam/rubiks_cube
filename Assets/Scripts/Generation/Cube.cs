@@ -22,7 +22,7 @@ public class Cube : MonoBehaviour
         };
 
         faces = new GameObject[6];
-        Vector3 halfSizeVec = Vector3.one * (offsetScale / 2f);
+        Vector3 halfSizeVec = Vector3.one * offsetScale;
         for (int i = 0; i < 6; i++)
         {
             faces[i] = Instantiate(facePrefab);
