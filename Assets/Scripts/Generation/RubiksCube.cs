@@ -53,4 +53,20 @@ public class RubiksCube : MonoBehaviour
             }
         }
     }
+
+    public List<Cube> GetCubesOnPlane(Plane p)
+    {
+        List<Cube> cubes = new List<Cube>();
+
+        Vector3 v = Vector3.zero;
+        foreach (Cube cube in cubes)
+        { 
+            if ((p.ClosestPointOnPlane(v) - v).sqrMagnitude < 0.1f)
+            {
+                cubes.Add(cube);
+            }
+        }
+
+        return cubes;
+    }
 }
