@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9db66a9c27e6144c9858ccd6f30e26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rubiksCube: {fileID: 1757354557}
+  rubiksTransform: {fileID: 1757354559}
   rotSpeed: 4.51
 --- !u!4 &1122853602
 Transform:
