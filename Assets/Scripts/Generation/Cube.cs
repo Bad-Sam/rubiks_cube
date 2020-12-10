@@ -10,7 +10,7 @@ public class Cube : MonoBehaviour
     private GameObject[] faces;
 
     [SerializeField]
-    float offsetScale = 5;
+    private float offsetScale = 5;
 
     private void Start()
     {
@@ -31,6 +31,10 @@ public class Cube : MonoBehaviour
             t.localPosition = offsets[i] * offsetScale + halfSizeVec;
             t.localRotation = Quaternion.LookRotation(-offsets[i]);
             t.Rotate(-90,0,0);
+
+            //Debug.Log(Vector3.Dot(faces[i].transform.position, faces[i].transform.position + offsets[i]));
+            //if (Vector3.Dot(faces[i].transform.position, offsets[i]) < 0)
+            //    Destroy(faces[i]);
         }
     }
 }
