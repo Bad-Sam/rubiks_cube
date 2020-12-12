@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 73999397}
   - component: {fileID: 73999398}
   m_Layer: 5
-  m_Name: Cude side width slider
+  m_Name: Size slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1431,6 +1431,7 @@ GameObject:
   - component: {fileID: 1298405535}
   - component: {fileID: 1298405534}
   - component: {fileID: 1298405533}
+  - component: {fileID: 1298405536}
   m_Layer: 5
   m_Name: Generate button
   m_TagString: Untagged
@@ -1500,7 +1501,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1298405534}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1298405536}
+        m_MethodName: UpdateRubiksCube
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1298405534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1538,6 +1550,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298405531}
   m_CullTransparentMesh: 0
+--- !u!114 &1298405536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298405531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc73b3b9ba6d8904facb7388badf364b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeSlider: {fileID: 73999398}
+  shuffleSlider: {fileID: 900898546}
+  rubiksCube: {fileID: 1757354558}
 --- !u!1 &1420275966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,7 +1772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 78.3, y: 11}
+  m_AnchoredPosition: {x: 70, y: 11}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1564892773
@@ -1905,10 +1932,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ca790cfcfd01c40b4c799ba01dcd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 2
-  offsetScale: 5
-  cubePrefab: {fileID: 8568971801785023337, guid: 46bfbe2a936992848a29d3b27a633ca4,
-    type: 3}
 --- !u!4 &1757354559
 Transform:
   m_ObjectHideFlags: 0
@@ -2350,7 +2373,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Complexity:'
+  m_Text: 'Cube size:'
 --- !u!222 &2068469113
 CanvasRenderer:
   m_ObjectHideFlags: 0
