@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class RubiksCube : MonoBehaviour
 {
-    [SerializeField]
-    private int size = 2;
+    private GameObject          cubePrefab  = null;
+    private List<GameObject>    cubes       = new List<GameObject>();
+    private int                 size        = 3;
+    private float               offsetScale = 5f;
 
-    [SerializeField]
-    float offsetScale = 5;
-
-    [SerializeField]
-    private GameObject cubePrefab;
-
-    //private Cube[] cubes;
-    private List<Cube> cubes = new List<Cube>();
-
+    void Awake()
+    {
+        cubePrefab = Resources.Load<GameObject>("Cube");
+        // TODO: search for a save
+        // TODO: if a save is found, load the RubiksCube with its parameters
+    }
 
 
     // Start is called before the first frame update
@@ -38,12 +37,30 @@ public class RubiksCube : MonoBehaviour
         */
     }
 
+
+    public void Generate(int size_, int shuffle)
+    {
+        foreach (GameObject cube in cubes)
+        {
+            Destroy(cube);
+        }
+
+        cubes.Clear();
+
+        size = size_;
+
+        GenerateCubes();
+        // TODO: shuffle the Rubik's Cube
+    }
+
+
     public void InitializeColors()
     {
         
     }
 
-    public void GenerateCubes()
+
+    private void GenerateCubes()
     {
         Vector3 halfSizeVec = offsetScale * size * Vector3.one;
         for (int z = 0; z < size; z++)
@@ -54,22 +71,22 @@ public class RubiksCube : MonoBehaviour
                 {
                     if (x == 0 || x == (size - 1) || y == 0 || y == (size - 1) || z == 0 || z == (size - 1))
                     {
-
                         GameObject newObject = Instantiate(cubePrefab, transform);
                         newObject.transform.localPosition = 2 * offsetScale * new Vector3(x, y, z) - halfSizeVec;
                         //cubes[x + y * size + z * size * size] = newObject.GetComponent<Cube>();
                         //cubes[x + y * size + z * size * size].transform.parent = this.transform;
-                        cubes.Add(newObject.GetComponent<Cube>());
+                        cubes.Add(newObject);
                     }
                 }
             }
         }
     }
 
-    public List<Cube> GetCubesOnPlane(Plane p, float delta = 0.1f)
+
+    public List<GameObject> GetCubesOnPlane(Plane p, float delta = 0.1f)
     {
-        List<Cube> cubesOnPlane = new List<Cube>();
-        foreach (Cube cube in cubes)
+        List<GameObject> cubesOnPlane = new List<GameObject>();
+        foreach (GameObject cube in cubes)
         {
             Vector3 v = cube.transform.position;
             //Debug.Log((p.ClosestPointOnPlane(v) - v).sqrMagnitude);
