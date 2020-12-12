@@ -28,12 +28,14 @@ public class RubiksCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         Plane p = new Plane(Vector3.forward, offsetScale * size);
         List<Cube> face = GetCubesOnPlane(p, 1);
         foreach (Cube cube in face)
         {
             cube.transform.RotateAround(Vector3.zero, Vector3.forward, 1);
         }
+        */
     }
 
     public void InitializeColors()
