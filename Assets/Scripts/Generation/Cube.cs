@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Cube : MonoBehaviour
@@ -9,15 +8,17 @@ public class Cube : MonoBehaviour
 
     private GameObject[] faces;
 
-    [SerializeField]
-    private float offsetScale = 5;
+    private float offsetScale = 5f;
+
+    public float OffsetScale
+    { get => offsetScale; private set => offsetScale = value; }
 
     private void Start()
     {
         Vector3[] offsets = new[]
         {   
-            Vector3.up, Vector3.down, 
-            Vector3.right, Vector3.left, 
+            Vector3.up, Vector3.down,
+            Vector3.right, Vector3.left,
             Vector3.forward, Vector3.back
         };
 
