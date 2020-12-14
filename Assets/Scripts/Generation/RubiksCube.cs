@@ -4,27 +4,33 @@ using UnityEngine;
 
 public class RubiksCube : MonoBehaviour
 {
+    private Camera              cam         = null;
     private GameObject          cubePrefab  = null;
     private List<GameObject>    cubes       = new List<GameObject>();
-    private int                 size        = 3;
-    private float               offsetScale = 5f;
+    private int                 size        = 2;
+    private float               cubeOffset  = 0f;
+    private float               initialCamZ = 0f;
 
     void Awake()
     {
-        cubePrefab = Resources.Load<GameObject>("Cube");
+        cam         = Camera.main;
+        cubePrefab  = Resources.Load<GameObject>("Cube");
+        cubeOffset  = cubePrefab.GetComponent<Cube>().OffsetScale;
+        initialCamZ = cam.transform.position.z;
         // TODO: search for a save
         // TODO: if a save is found, load the RubiksCube with its parameters
+
+        UpdateView();
     }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         //cubes = new Cube[size * size * size];
         GenerateCubes();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         /*
@@ -38,8 +44,19 @@ public class RubiksCube : MonoBehaviour
     }
 
 
-    public void Generate(int size_, int shuffle)
+    // Adapt the camera position so the Rubik's Cube fits to the screen
+    void UpdateView()
     {
+        // Calculated from the camera's FOV, with a bit of trigonometry
+        // The original formula is multiplicated by 2.5, so the view is "comfortable"
+        float sign = Mathf.Sign(Vector3.Dot(cam.transform.position, Vector3.forward));
+        cam.transform.position = new Vector3(0f, 0f, sign * Mathf.Sqrt(3) * size * cubeOffset * 1.25f / Mathf.Tan(.5f * Mathf.Deg2Rad * cam.fieldOfView));
+    }
+
+
+    public void Generate(int newSize, int shuffle)
+    {
+        // Remove current Rubik's Cube
         foreach (GameObject cube in cubes)
         {
             Destroy(cube);
@@ -47,22 +64,29 @@ public class RubiksCube : MonoBehaviour
 
         cubes.Clear();
 
-        size = size_;
+        // Update the size to the size of the new Rubik's Cube
+        size = newSize;
 
+        // Update camera view
+        UpdateView();
+
+        // Generate new Rubik'sCube
         GenerateCubes();
+
         // TODO: shuffle the Rubik's Cube
     }
 
 
     public void InitializeColors()
     {
-        
+
     }
 
 
     private void GenerateCubes()
     {
-        Vector3 halfSizeVec = offsetScale * size * Vector3.one;
+        Vector3 halfSizeVec = cubeOffset * size * Vector3.one;
+
         for (int z = 0; z < size; z++)
         {
             for (int y = 0; y < size; y++)
@@ -72,7 +96,7 @@ public class RubiksCube : MonoBehaviour
                     if (x == 0 || x == (size - 1) || y == 0 || y == (size - 1) || z == 0 || z == (size - 1))
                     {
                         GameObject newObject = Instantiate(cubePrefab, transform);
-                        newObject.transform.localPosition = 2 * offsetScale * new Vector3(x, y, z) - halfSizeVec;
+                        newObject.transform.localPosition = 2 * cubeOffset * new Vector3(x, y, z) - halfSizeVec;
                         //cubes[x + y * size + z * size * size] = newObject.GetComponent<Cube>();
                         //cubes[x + y * size + z * size * size].transform.parent = this.transform;
                         cubes.Add(newObject);
