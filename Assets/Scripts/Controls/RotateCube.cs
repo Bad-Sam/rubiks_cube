@@ -8,7 +8,7 @@ public class RotateCube : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Angular velocity or the cube's rotation")]
-    [Range(.01f, 10f)]
+    [Range(1f, 10f)]
     private float rotSpeed = .01f;
 
     /* ==== Internal variables ==== */
@@ -33,7 +33,7 @@ public class RotateCube : MonoBehaviour
             // Rotate it by 90° in the plane of the camera, to make the cube rotate in the same direction as the mouse
             rotAxis.Set(rotAxis.y, -rotAxis.x, rotAxis.z);
 
-            // Express this axis into the cube's referencial
+            // Express this axis into the cube's referential
             rotAxis.Set(Vector3.Dot(rotAxis, rubiksTransform.transform.right),
                         Vector3.Dot(rotAxis, rubiksTransform.transform.up),
                         Vector3.Dot(rotAxis, rubiksTransform.transform.forward));
