@@ -28,7 +28,7 @@ public class Cube : MonoBehaviour
             faces[i] = Instantiate(facePrefab);
             Transform t = faces[i].transform;
             t.parent = this.transform;
-            t.localPosition = offsets[i] * offsetScale + halfSizeVec;
+            t.localPosition = offsets[i] * offsetScale;// - halfSizeVec;
             t.localRotation = Quaternion.LookRotation(-offsets[i]);
             t.Rotate(-90,0,0);
 
