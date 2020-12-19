@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Assertions;
 using UnityEngine;
 
 public class Cube : MonoBehaviour
@@ -8,15 +10,25 @@ public class Cube : MonoBehaviour
 
     private GameObject[] faces;
 
-    private float offsetScale = 5f;
+    [SerializeField]
+    private Material[] materials;
 
-    public float OffsetScale
-    { get => offsetScale; private set => offsetScale = value; }
+    [SerializeField]
+    private float offsetScale = 5;
+
+    private void Awake()
+    {
+        Assert.IsNotNull(materials);
+        foreach (Material mat in materials)
+        {
+            Assert.IsNotNull(mat);
+        }
+    }
 
     private void Start()
     {
         Vector3[] offsets = new[]
-        {   
+        {
             Vector3.up, Vector3.down,
             Vector3.right, Vector3.left,
             Vector3.forward, Vector3.back
@@ -31,7 +43,14 @@ public class Cube : MonoBehaviour
             t.parent = this.transform;
             t.localPosition = offsets[i] * offsetScale;// - halfSizeVec;
             t.localRotation = Quaternion.LookRotation(-offsets[i]);
-            t.Rotate(-90,0,0);
+            t.Rotate(-90, 0, 0);
+
+
+            Face face = faces[i].GetComponent<Face>();
+            if (face != null)
+            {
+                face.SetMaterial(materials[i]);
+            }
 
             //Debug.Log(Vector3.Dot(faces[i].transform.position, faces[i].transform.position + offsets[i]));
             //if (Vector3.Dot(faces[i].transform.position, offsets[i]) < 0)
