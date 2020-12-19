@@ -15,6 +15,8 @@ public class Cube : MonoBehaviour
 
     [SerializeField]
     private float offsetScale = 5;
+    public float OffsetScale
+    { get => offsetScale; private set => offsetScale = value; }
 
     private void Awake()
     {
