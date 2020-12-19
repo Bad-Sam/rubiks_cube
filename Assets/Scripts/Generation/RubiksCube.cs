@@ -37,11 +37,10 @@ public class RubiksCube : MonoBehaviour
         GenerateCubes();
     }
 
-
+    bool hasShuffled = false;
     void Update()
     {
-       
-        
+
     }
     public void RotateFace(Plane p, float angle)
     {
@@ -90,7 +89,11 @@ public class RubiksCube : MonoBehaviour
         // Generate new Rubik'sCube
         GenerateCubes();
 
-        // TODO: shuffle the Rubik's Cube
+        // Shuffle the Rubik's Cube
+        for (int i = 0; i < shuffle; i++)
+        {
+            Shuffle();
+        }
     }
 
 
@@ -133,5 +136,22 @@ public class RubiksCube : MonoBehaviour
         }
 
         return cubesOnPlane;
+    }
+
+    public void Shuffle()
+    {
+        Vector3[] axes =
+        {
+            transform.up,
+            - transform.up,
+            transform.right,
+            - transform.right,
+            transform.forward,
+            - transform.forward
+        };
+        float angle = 90f;
+        int r = Random.Range(0, 5);
+        Plane p = new Plane(axes[r], axes[r]);
+        RotateFace(p, angle);
     }
 }
