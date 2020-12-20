@@ -184,6 +184,8 @@ public class RubiksCube : MonoBehaviour
         {
             StartCoroutine(AnimatedShuffle(shuffle));
         }
+
+        cubeRotator.allowFullCubeRotation = true;
     }
 
     private void GenerateCubes()
