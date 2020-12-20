@@ -53,8 +53,6 @@ public class RotateFace : MonoBehaviour
 
     void OnFirstClick()
     {
-        cubeRotator.allowFullCubeRotation = false;
-
         Vector3 mouseLoc2D = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mouseLoc2D);
         RaycastHit hitInfo;
@@ -104,6 +102,8 @@ public class RotateFace : MonoBehaviour
 
     void OnDrag()
     {
+        cubeRotator.allowFullCubeRotation = false;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         rotationPlane.Raycast(ray, out float enter);
         Vector3 hitPointProj = ray.origin + enter * ray.direction;
