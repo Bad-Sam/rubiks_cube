@@ -105,6 +105,9 @@ public class RotateFace : MonoBehaviour
 
     void OnMouseRelease()
     {
+        if (state == 0)
+            return;
+
         /* Set the angle of the face to a multiple of 90 degrees. */
         // TODO : Interpolate
         currentRotation %= 90;
@@ -121,6 +124,7 @@ public class RotateFace : MonoBehaviour
         currentRotation = 0;
 
         state = 0;
+        rubiks.OnFaceRotationEnd();
     }
 
 }

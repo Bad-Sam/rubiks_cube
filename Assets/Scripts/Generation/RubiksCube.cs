@@ -47,6 +47,15 @@ public class RubiksCube : MonoBehaviour
         return true;
     }
 
+    public void OnFaceRotationEnd()
+    {
+        if (IsSolved())
+        {
+            // TODO : display win screen
+
+        }
+    }
+
     void Start()
     {
         //cubes = new Cube[size * size * size];
