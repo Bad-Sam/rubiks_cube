@@ -47,6 +47,27 @@ public class RubiksCube : MonoBehaviour
         return true;
     }
 
+    public IEnumerator EndRotation(Plane rotationPlane, float totalAngle, float time = 0.2f, float delta = 0.03f)
+    {
+        float cumulatedRotation = 0f;
+        for (float currentTime = 0f ; currentTime < time; currentTime += delta)
+        {
+            //if (currentTime > 0f)
+            //{
+            //    RotateFace(rotationPlane, - oldRotation);
+            //}
+            //oldRotation = totalAngle * currentTime / time;
+            float angle = totalAngle / (time / delta);
+            RotateFace(rotationPlane, angle);
+            cumulatedRotation += angle;
+
+            yield return new WaitForSeconds(delta);
+        }
+
+        RotateFace(rotationPlane, -cumulatedRotation);
+        RotateFace(rotationPlane, totalAngle);
+    }
+
     public void OnFaceRotationEnd()
     {
         if (IsSolved())

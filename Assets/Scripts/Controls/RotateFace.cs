@@ -115,16 +115,18 @@ public class RotateFace : MonoBehaviour
         Plane p = new Plane(cross, firstHitPoint);
         if (currentRotation < 45)
         {
-            rubiks.RotateFace(p, -currentRotation);
+            //rubiks.RotateFace(p, -currentRotation);
+            StartCoroutine(rubiks.EndRotation(p, -currentRotation));
         }
         else
         {
-            rubiks.RotateFace(p, 90 - currentRotation);
+            //rubiks.RotateFace(p, 90 - currentRotation);
+            StartCoroutine(rubiks.EndRotation(p, 90 - currentRotation));
         }
         currentRotation = 0;
 
         state = 0;
-        rubiks.OnFaceRotationEnd();
+        //rubiks.OnFaceRotationEnd();
     }
 
 }
