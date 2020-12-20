@@ -40,6 +40,7 @@ public class RubiksCube : MonoBehaviour
         {
             if (obj.transform.rotation != firstObj.transform.rotation)
             {
+                //Debug.Log("1 : " + obj.transform.rotation + " / 2 : " + firstObj.transform.rotation);
                 return false;
             }
         }
@@ -93,6 +94,15 @@ public class RubiksCube : MonoBehaviour
             Quaternion rot = Quaternion.AngleAxis(angle, p.normal);
             cube.transform.position = rot * (cube.transform.position - transform.position) + transform.position;
             cube.transform.rotation = rot * cube.transform.rotation;
+
+            // We want the quaternion unit and with a positif w, 
+            // so that a rotation  is only represented by one quaternion (for the win condition).
+            cube.transform.rotation.Normalize();
+            if (cube.transform.rotation.w < 0)
+            {
+                Quaternion q = cube.transform.rotation;
+                cube.transform.rotation = new Quaternion(-q.x, -q.y, -q.z, -q.w);
+            }
         }
     }
 
