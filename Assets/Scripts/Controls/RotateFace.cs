@@ -20,6 +20,8 @@ public class RotateFace : MonoBehaviour
     float angularSpeed = 1f;//0.03f;
     int inputMode = 0;
 
+    private Vector3 lastHitPoint;
+
     void Start()
     {
         cubeRotator = FindObjectOfType(typeof(RotateCube)) as RotateCube;
@@ -99,8 +101,6 @@ public class RotateFace : MonoBehaviour
             state = 2;
         }
     }
-
-    Vector3 lastHitPoint;
 
     void OnDrag()
     {

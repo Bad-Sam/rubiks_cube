@@ -20,6 +20,8 @@ public class RubiksCube : MonoBehaviour
 
     private BoxCollider     boxCollider = null;
 
+    int nbMaxAnimatedShuffles = 10;
+
     void Awake()
     {
         cam             = Camera.main;
@@ -145,11 +147,18 @@ public class RubiksCube : MonoBehaviour
         GenerateCubes();
 
         // Shuffle the Rubik's Cube
-        //for (int i = 0; i < shuffle; i++)
-        //{
-        //    Shuffle();
-        //}
-        StartCoroutine(AnimatedShuffle(shuffle));
+        if (shuffle > nbMaxAnimatedShuffles)
+        {
+            for (int i = 0; i < shuffle - nbMaxAnimatedShuffles; i++)
+            {
+                Shuffle();
+            }
+            StartCoroutine(AnimatedShuffle(nbMaxAnimatedShuffles));
+        }
+        else
+        {
+            StartCoroutine(AnimatedShuffle(shuffle));
+        }
     }
 
     private void GenerateCubes()
