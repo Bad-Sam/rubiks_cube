@@ -35,6 +35,8 @@ public class RotateFace : MonoBehaviour
             switch (state)
             {
                 case 0:
+                    if (rubiks.isFaceRotating)
+                        return;
                     OnFirstClick();
                     break;
                 case 1:

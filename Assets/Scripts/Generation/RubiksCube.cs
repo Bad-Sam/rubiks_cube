@@ -25,6 +25,8 @@ public class RubiksCube : MonoBehaviour
 
     private Coroutine animCoroutine = null;
 
+    public bool isFaceRotating = false;
+
     void Awake()
     {
         cam             = Camera.main;
@@ -58,6 +60,7 @@ public class RubiksCube : MonoBehaviour
     public IEnumerator RotateFaceAnimated(Plane rotationPlane, float totalAngle, float time = 0.2f, float delta = 0.03f)
     {
         cubeRotator.allowFullCubeRotation = false;
+        isFaceRotating = true;
 
         float cumulatedRotation = 0f;
         for (float currentTime = 0f ; currentTime < time; currentTime += delta)
@@ -74,6 +77,7 @@ public class RubiksCube : MonoBehaviour
         OnFaceRotationEnd();
 
         cubeRotator.allowFullCubeRotation = true;
+        isFaceRotating = false;
         yield return null;
     }
 
