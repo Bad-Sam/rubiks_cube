@@ -60,6 +60,7 @@ public class RotateFace : MonoBehaviour
         if (Physics.Raycast(ray, out hitInfo))
         {
             rotationPlane = new Plane(hitInfo.normal, hitInfo.point);
+            Debug.DrawRay(hitInfo.point, hitInfo.normal * 10000, Color.cyan, 9999);
             firstHitPoint = hitInfo.point;
             lastHitPoint = firstHitPoint;
 
@@ -88,12 +89,10 @@ public class RotateFace : MonoBehaviour
     {
         Vector3 mouseLoc2D = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mouseLoc2D);
-        float enter;
-        rotationPlane.Raycast(ray, out enter);
+        rotationPlane.Raycast(ray, out float enter);
         Vector3 HitPointProj = ray.origin + enter * ray.direction;
 
-        float dotMax;
-        usedAxis = GetNearestAxis(HitPointProj - firstHitPoint, out dotMax);
+        usedAxis = GetNearestAxis(HitPointProj - firstHitPoint, out float dotMax);
         float dotOffsetMin = 0.1F;
         if (Mathf.Abs(dotMax) > dotOffsetMin)
         {

@@ -32,6 +32,7 @@ public class RubiksCube : MonoBehaviour
         // TODO: if a save is found, load the RubiksCube with its parameters
 
         boxCollider     = GetComponent<BoxCollider>();
+        boxCollider.size = new Vector3(size, size, size) * 10f;
         UpdateView();
     }
 
