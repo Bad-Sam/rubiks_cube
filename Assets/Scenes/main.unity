@@ -802,19 +802,21 @@ MonoBehaviour:
     - Right click and drag: rotate Rubik''s cube
 
     - Left
-    click and drag: rotate clicked Rubik''s cube''s slice
+    click and drag: rotate clicked Rubik''s cube face
+
+    - Escape: save your progress
+    and exit the application
 
 
     Options:
 
-    - Complexity:
-    amount of small cubes on the side of face
+    - Size: amount of small cubes on
+    the side of face
 
-    - Shuffle depth: how many times
-    the cube should be shuffled
+    - Shuffle depth: how many times the cube should be shuffled
 
-    - Generate: generate a new Rubik''s cube with
-    given complexity and shuffle depth'
+    -
+    Generate: generate a new Rubik''s cube with given size and shuffle depth'
 --- !u!222 &599260463
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -857,7 +859,7 @@ RectTransform:
   - {fileID: 1298405532}
   - {fileID: 419524696}
   m_Father: {fileID: 1802337992}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1354,7 +1356,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1802337992}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1618,6 +1620,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194609169}
   m_CullTransparentMesh: 0
+--- !u!1 &1243301536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1243301538}
+  - component: {fileID: 1243301537}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1243301537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243301536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2255b6dcc90b21340995c86b9d3eeb54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1243301538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243301536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 574.4137, y: 496.6041, z: 1.4224243}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1298405531
 GameObject:
   m_ObjectHideFlags: 0
@@ -2324,8 +2369,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 489404068}
-  - {fileID: 633071141}
   - {fileID: 1058918011}
+  - {fileID: 633071141}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
