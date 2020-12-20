@@ -37,16 +37,17 @@ public class RubiksCube : MonoBehaviour
         GenerateCubes();
     }
 
-    bool hasShuffled = false;
     void Update()
     {
 
     }
+
     public void RotateFace(Plane p, float angle)
     {
         List<GameObject> face = GetCubesOnPlane(p, cubeOffset * 4);
         foreach (GameObject cube in face)
         {
+            //cube.transform.
             cube.transform.RotateAround(transform.position, p.normal, angle);
         }
     }
@@ -150,8 +151,11 @@ public class RubiksCube : MonoBehaviour
             - transform.forward
         };
         float angle = 90f;
-        int r = Random.Range(0, 5);
-        Plane p = new Plane(axes[r], axes[r]);
+        int randomAxisIndex = Random.Range(0, 5);
+        Vector3 randomAxis = axes[randomAxisIndex];
+        int randomLine = Random.Range(- size, size);
+        Vector3 point = transform.position + randomAxis * (cubeOffset * (randomLine - 0.5f));
+        Plane p = new Plane(randomAxis, point);
         RotateFace(p, angle);
     }
 }

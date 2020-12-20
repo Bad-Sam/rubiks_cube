@@ -6,12 +6,12 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField]
-    private GameObject facePrefab;
+    private GameObject facePrefab = null;
 
-    private GameObject[] faces;
+    private GameObject[] faces = null;
 
     [SerializeField]
-    private Material[] materials;
+    private Material[] materials = null;
 
     [SerializeField]
     private float offsetScale = 5;
