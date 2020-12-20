@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(BoxCollider))]
 public class RubiksCube : MonoBehaviour
@@ -11,9 +12,9 @@ public class RubiksCube : MonoBehaviour
 
     /* Number of sub cubes aligned in the Rubik's cube. */
     private int             size        = 2;
+
     /* Half of the distance between the location of each sub cube. */
     private float           cubeOffset  = 0f;
-    private float           initialCamZ = 0f;
 
     private CubeSolved      solvedCondition = null;
     private RotateCube      cubeRotator = null;
@@ -25,14 +26,9 @@ public class RubiksCube : MonoBehaviour
         cam             = Camera.main;
         cubePrefab      = Resources.Load<GameObject>("Cube");
         cubeOffset      = cubePrefab.GetComponent<Cube>().OffsetScale;
-        initialCamZ     = cam.transform.position.z;
         solvedCondition = FindObjectOfType(typeof(CubeSolved)) as CubeSolved;
 
-        // TODO: search for a save
-        // TODO: if a save is found, load the RubiksCube with its parameters
-
         boxCollider     = GetComponent<BoxCollider>();
-        UpdateView();
     }
 
 
@@ -86,9 +82,37 @@ public class RubiksCube : MonoBehaviour
 
     void Start()
     {
-        //cubes = new Cube[size * size * size];
-        GenerateCubes();
         cubeRotator = FindObjectOfType(typeof(RotateCube)) as RotateCube;
+        // SavedData is a serializable class defined in GameManager.cs
+        SavedData save = GameManager.GetSave();
+
+        if (save != null)
+        {
+            size = save.cubeSize;
+            Vector3 pos     = new Vector3(save.rubiksPosRot.pos[0], save.rubiksPosRot.pos[1], save.rubiksPosRot.pos[2]);
+            Quaternion rot  = new Quaternion(save.rubiksPosRot.rot[0],  save.rubiksPosRot.rot[1],  save.rubiksPosRot.rot[2], save.rubiksPosRot.rot[3]);
+
+            transform.SetPositionAndRotation(pos, rot);
+            GenerateCubes();
+
+            uint i = 0u;
+
+            foreach (Cube cube in cubes)
+            {
+                // PosRot is a subclass
+                SavedData.PosRot posRotI = save.posRot[i++];
+
+                pos = new Vector3(posRotI.pos[0], posRotI.pos[1], posRotI.pos[2]);
+                rot = new Quaternion(posRotI.rot[0], posRotI.rot[1], posRotI.rot[2], posRotI.rot[3]);
+
+                cube.transform.SetPositionAndRotation(pos, rot);
+            }
+        }
+
+        else
+            GenerateCubes();
+
+        UpdateView();
     }
 
     public void RotateFace(Plane p, float angle)
@@ -197,9 +221,9 @@ public class RubiksCube : MonoBehaviour
             transform.forward,
             - transform.forward
         };
-        int randomAxisIndex = Random.Range(0, 5);
+        int randomAxisIndex = UnityEngine.Random.Range(0, 5);
         Vector3 randomAxis = axes[randomAxisIndex];
-        int randomLine = Random.Range(-size, size);
+        int randomLine = UnityEngine.Random.Range(-size, size);
         Vector3 point = transform.position + randomAxis * (cubeOffset * (randomLine - 0.5f));
         Plane p = new Plane(randomAxis, point);
         return p;
@@ -220,5 +244,38 @@ public class RubiksCube : MonoBehaviour
 
             yield return RotateFaceAnimated(p, 90f, duration);
         }
+    }
+
+
+    public SavedData GetSavedData()
+    {
+        SavedData save = new SavedData(size, cubes.Count);
+
+        uint i = 0u;
+        foreach (Cube cube in cubes)
+        {
+            Vector3     pos = cube.transform.position;
+            Quaternion  rot = cube.transform.rotation;
+
+            SavedData.PosRot posRotI = save.posRot[i++];
+
+            posRotI.pos[0] = pos.x;
+            posRotI.pos[1] = pos.y;
+            posRotI.pos[2] = pos.z;
+            posRotI.rot[0] = rot.x;
+            posRotI.rot[1] = rot.y;
+            posRotI.rot[2] = rot.z;
+            posRotI.rot[3] = rot.w;
+        }
+
+        save.rubiksPosRot.pos[0] = transform.position.x;
+        save.rubiksPosRot.pos[1] = transform.position.y;
+        save.rubiksPosRot.pos[2] = transform.position.z;
+        save.rubiksPosRot.rot[0] = transform.rotation.x;
+        save.rubiksPosRot.rot[1] = transform.rotation.y;
+        save.rubiksPosRot.rot[2] = transform.rotation.z;
+        save.rubiksPosRot.rot[3] = transform.rotation.w;
+
+        return save;
     }
 }
