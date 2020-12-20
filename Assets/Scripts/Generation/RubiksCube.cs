@@ -23,6 +23,8 @@ public class RubiksCube : MonoBehaviour
 
     int nbMaxAnimatedShuffles = 10;
 
+    private Coroutine animCoroutine = null;
+
     void Awake()
     {
         cam             = Camera.main;
@@ -46,7 +48,6 @@ public class RubiksCube : MonoBehaviour
         {
             if (obj.transform.rotation != firstObj.transform.rotation)
             {
-                //Debug.Log("1 : " + obj.transform.rotation + " / 2 : " + firstObj.transform.rotation);
                 return false;
             }
         }
@@ -171,6 +172,11 @@ public class RubiksCube : MonoBehaviour
         // Generate new Rubik'sCube
         GenerateCubes();
 
+        if (animCoroutine != null)
+        {
+            StopCoroutine(animCoroutine);
+        }
+
         // Shuffle the Rubik's Cube
         if (shuffle > nbMaxAnimatedShuffles)
         {
@@ -178,11 +184,11 @@ public class RubiksCube : MonoBehaviour
             {
                 Shuffle();
             }
-            StartCoroutine(AnimatedShuffle(nbMaxAnimatedShuffles));
+            animCoroutine = StartCoroutine(AnimatedShuffle(nbMaxAnimatedShuffles));
         }
         else
         {
-            StartCoroutine(AnimatedShuffle(shuffle));
+            animCoroutine = StartCoroutine(AnimatedShuffle(shuffle));
         }
 
         cubeRotator.allowFullCubeRotation = true;
@@ -223,6 +229,7 @@ public class RubiksCube : MonoBehaviour
         return cubesOnPlane;
     }
 
+
     public Plane GetRandomShufflePlane()
     {
         Vector3[] axes =
@@ -234,7 +241,7 @@ public class RubiksCube : MonoBehaviour
             transform.forward,
             - transform.forward
         };
-        int randomAxisIndex = UnityEngine.Random.Range(0, 5);
+        int randomAxisIndex = randomAxisIndex = UnityEngine.Random.Range(0, 5);
         Vector3 randomAxis = axes[randomAxisIndex];
         int randomLine = UnityEngine.Random.Range(-size, size);
         Vector3 point = transform.position + randomAxis * (cubeOffset * (randomLine - 0.5f));
