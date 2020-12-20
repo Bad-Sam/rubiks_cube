@@ -5,28 +5,32 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class RubiksCube : MonoBehaviour
 {
-    private Camera        cam         = null;
-    private GameObject    cubePrefab  = null;
-    private List<Cube>    cubes       = new List<Cube>();
+    private Camera          cam         = null;
+    private GameObject      cubePrefab  = null;
+    private List<Cube>      cubes       = new List<Cube>();
 
     /* Number of sub cubes aligned in the Rubik's cube. */
-    private int                 size        = 2;
+    private int             size        = 2;
     /* Half of the distance between the location of each sub cube. */
-    private float               cubeOffset  = 0f;
-    private float               initialCamZ = 0f;
+    private float           cubeOffset  = 0f;
+    private float           initialCamZ = 0f;
 
-    private BoxCollider boxCollider = null;
+    private CubeSolved      solvedCondition = null;
+
+    private BoxCollider     boxCollider = null;
 
     void Awake()
     {
-        cam         = Camera.main;
-        cubePrefab  = Resources.Load<GameObject>("Cube");
-        cubeOffset  = cubePrefab.GetComponent<Cube>().OffsetScale;
-        initialCamZ = cam.transform.position.z;
+        cam             = Camera.main;
+        cubePrefab      = Resources.Load<GameObject>("Cube");
+        cubeOffset      = cubePrefab.GetComponent<Cube>().OffsetScale;
+        initialCamZ     = cam.transform.position.z;
+        solvedCondition = FindObjectOfType(typeof(CubeSolved)) as CubeSolved;
+
         // TODO: search for a save
         // TODO: if a save is found, load the RubiksCube with its parameters
 
-        boxCollider = GetComponent<BoxCollider>();
+        boxCollider     = GetComponent<BoxCollider>();
         UpdateView();
     }
 
@@ -51,8 +55,7 @@ public class RubiksCube : MonoBehaviour
     {
         if (IsSolved())
         {
-            // TODO : display win screen
-
+            solvedCondition.Trigger();
         }
     }
 
