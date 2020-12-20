@@ -51,6 +51,24 @@ public class RubiksCube : MonoBehaviour
         return true;
     }
 
+    public IEnumerator RotateFaceAnimated(Plane rotationPlane, float totalAngle, float time = 0.2f, float delta = 0.03f)
+    {
+        float cumulatedRotation = 0f;
+        for (float currentTime = 0f ; currentTime < time; currentTime += delta)
+        {
+            float angle = totalAngle / (time / delta);
+            RotateFace(rotationPlane, angle);
+            cumulatedRotation += angle;
+
+            yield return new WaitForSeconds(delta);
+        }
+
+        RotateFace(rotationPlane, -cumulatedRotation);
+        RotateFace(rotationPlane, totalAngle);
+        OnFaceRotationEnd();
+        yield return null;
+    }
+
     public void OnFaceRotationEnd()
     {
         if (IsSolved())
@@ -79,12 +97,6 @@ public class RubiksCube : MonoBehaviour
             cube.transform.position = rot * (cube.transform.position - transform.position) + transform.position;
             cube.transform.rotation = rot * cube.transform.rotation;
         }
-    }
-
-    public void RotateFace(Vector3 normal, float angle)
-    {
-        Plane p = new Plane(normal, cubeOffset * size);
-        RotateFace(p, angle);
     }
 
     // Adapt the camera position so the Rubik's Cube fits to the screen
@@ -120,18 +132,12 @@ public class RubiksCube : MonoBehaviour
         GenerateCubes();
 
         // Shuffle the Rubik's Cube
-        for (int i = 0; i < shuffle; i++)
-        {
-            Shuffle();
-        }
+        //for (int i = 0; i < shuffle; i++)
+        //{
+        //    Shuffle();
+        //}
+        StartCoroutine(AnimatedShuffle(shuffle));
     }
-
-
-    public void InitializeColors()
-    {
-
-    }
-
 
     private void GenerateCubes()
     {
@@ -168,10 +174,10 @@ public class RubiksCube : MonoBehaviour
         return cubesOnPlane;
     }
 
-    public void Shuffle()
+    public Plane GetRandomShufflePlane()
     {
         Vector3[] axes =
-        {
+{
             transform.up,
             - transform.up,
             transform.right,
@@ -179,12 +185,28 @@ public class RubiksCube : MonoBehaviour
             transform.forward,
             - transform.forward
         };
-        float angle = 90f;
         int randomAxisIndex = Random.Range(0, 5);
         Vector3 randomAxis = axes[randomAxisIndex];
-        int randomLine = Random.Range(- size, size);
+        int randomLine = Random.Range(-size, size);
         Vector3 point = transform.position + randomAxis * (cubeOffset * (randomLine - 0.5f));
         Plane p = new Plane(randomAxis, point);
-        RotateFace(p, angle);
+        return p;
+    }
+
+    public void Shuffle()
+    {
+        Plane p = GetRandomShufflePlane();
+        RotateFace(p, 90f);
+    }
+
+    IEnumerator AnimatedShuffle(int nbShuffles)
+    {
+        for (int i = 0; i < nbShuffles; i++)
+        {
+            float duration = 0.09f;
+            Plane p = GetRandomShufflePlane();
+
+            yield return RotateFaceAnimated(p, 90f, duration);
+        }
     }
 }

@@ -99,7 +99,7 @@ public class RotateFace : MonoBehaviour
         Vector3 cross = Vector3.Cross(rotationPlane.normal, usedAxis.normalized);
         float dot = Vector3.Dot(hitPointProj - firstHitPoint, usedAxis);
         Plane p = new Plane(cross, firstHitPoint);
-        rubiks.RotateFace(p, dot * angularSpeed);// dotMax * 10);
+        rubiks.RotateFace(p, dot * angularSpeed);
         currentRotation += dot * angularSpeed;
     }
 
@@ -115,16 +115,18 @@ public class RotateFace : MonoBehaviour
         Plane p = new Plane(cross, firstHitPoint);
         if (currentRotation < 45)
         {
-            rubiks.RotateFace(p, -currentRotation);
+            //rubiks.RotateFace(p, -currentRotation);
+            StartCoroutine(rubiks.RotateFaceAnimated(p, -currentRotation));
         }
         else
         {
-            rubiks.RotateFace(p, 90 - currentRotation);
+            //rubiks.RotateFace(p, 90 - currentRotation);
+            StartCoroutine(rubiks.RotateFaceAnimated(p, 90 - currentRotation));
         }
         currentRotation = 0;
 
         state = 0;
-        rubiks.OnFaceRotationEnd();
+        //rubiks.OnFaceRotationEnd();
     }
 
 }
