@@ -1422,7 +1422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rubiksTransform: {fileID: 1757354559}
-  rotSpeed: 4.51
+  rotSpeed: 4.5
   allowFullCubeRotation: 1
 --- !u!4 &1122853602
 Transform:
@@ -2463,6 +2463,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1956817199}
   - component: {fileID: 1956817197}
+  - component: {fileID: 1956817198}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2513,6 +2514,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1956817198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956817196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c6e48cffb5f5274c9c050d4c4ba4dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1956817199
 Transform:
   m_ObjectHideFlags: 0
