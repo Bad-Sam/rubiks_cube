@@ -116,12 +116,12 @@ public class RotateFace : MonoBehaviour
         if (currentRotation < 45)
         {
             //rubiks.RotateFace(p, -currentRotation);
-            StartCoroutine(rubiks.EndRotation(p, -currentRotation));
+            StartCoroutine(rubiks.RotateFaceAnimated(p, -currentRotation));
         }
         else
         {
             //rubiks.RotateFace(p, 90 - currentRotation);
-            StartCoroutine(rubiks.EndRotation(p, 90 - currentRotation));
+            StartCoroutine(rubiks.RotateFaceAnimated(p, 90 - currentRotation));
         }
         currentRotation = 0;
 
