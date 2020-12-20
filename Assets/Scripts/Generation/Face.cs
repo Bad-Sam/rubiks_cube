@@ -5,20 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer)), RequireComponent(typeof(MeshFilter))]
 public class Face : MonoBehaviour
 {
-    private Color color;
-
     private MeshRenderer meshRenderer;
 
-    //[SerializeField]
-    //private MeshFilter meshFilter = null;
-    //[SerializeField]
-    //private MeshRenderer meshRenderer = null;
-
-
-    //public void SetColor(Color c)
-    //{
-
-    //}
+    public Material GetMaterial()
+    {
+        return meshRenderer.material; 
+    }
 
     public void Awake()
     {

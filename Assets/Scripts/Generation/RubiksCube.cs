@@ -5,9 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class RubiksCube : MonoBehaviour
 {
-    private Camera              cam         = null;
-    private GameObject          cubePrefab  = null;
-    private List<GameObject>    cubes       = new List<GameObject>();
+    private Camera        cam         = null;
+    private GameObject    cubePrefab  = null;
+    private List<Cube>    cubes       = new List<Cube>();
 
     /* Number of sub cubes aligned in the Rubik's cube. */
     private int                 size        = 2;
@@ -30,6 +30,22 @@ public class RubiksCube : MonoBehaviour
         UpdateView();
     }
 
+    public bool IsSolved() 
+    {
+        Debug.Assert(cubes.Count > 0);
+
+        Cube firstObj = cubes[0].GetComponent<Cube>();
+
+        foreach (Cube obj in cubes)
+        {
+            if (obj.transform.rotation != firstObj.transform.rotation)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     void Start()
     {
@@ -47,8 +63,9 @@ public class RubiksCube : MonoBehaviour
         List<GameObject> face = GetCubesOnPlane(p, cubeOffset * 4);
         foreach (GameObject cube in face)
         {
-            //cube.transform.
-            cube.transform.RotateAround(transform.position, p.normal, angle);
+            Quaternion rot = Quaternion.AngleAxis(angle, p.normal);
+            cube.transform.position = rot * (cube.transform.position - transform.position) + transform.position;
+            cube.transform.rotation = rot * cube.transform.rotation;
         }
     }
 
@@ -71,9 +88,9 @@ public class RubiksCube : MonoBehaviour
     public void Generate(int newSize, int shuffle)
     {
         // Remove current Rubik's Cube
-        foreach (GameObject cube in cubes)
+        foreach (Cube cube in cubes)
         {
-            Destroy(cube);
+            Destroy(cube.gameObject);
         }
 
         cubes.Clear();
@@ -116,7 +133,7 @@ public class RubiksCube : MonoBehaviour
                     {
                         GameObject newObject = Instantiate(cubePrefab, transform);
                         newObject.transform.localPosition = 2 * cubeOffset * new Vector3(x, y, z) - cubeOffset * (size - 1) * Vector3.one;
-                        cubes.Add(newObject);
+                        cubes.Add(newObject.GetComponent<Cube>());
                     }
                 }
             }
@@ -127,12 +144,12 @@ public class RubiksCube : MonoBehaviour
     public List<GameObject> GetCubesOnPlane(Plane p, float delta = 0.1f)
     {
         List<GameObject> cubesOnPlane = new List<GameObject>();
-        foreach (GameObject cube in cubes)
+        foreach (Cube cube in cubes)
         {
             Vector3 v = cube.transform.position;
             if ((p.ClosestPointOnPlane(v) - v).sqrMagnitude < delta)
             {
-                cubesOnPlane.Add(cube);
+                cubesOnPlane.Add(cube.gameObject);
             }
         }
 

@@ -8,7 +8,7 @@ public class Cube : MonoBehaviour
     [SerializeField]
     private GameObject facePrefab = null;
 
-    private GameObject[] faces = null;
+    private Face[] faces = null;
 
     [SerializeField]
     private Material[] materials = null;
@@ -17,6 +17,9 @@ public class Cube : MonoBehaviour
     private float offsetScale = 5;
     public float OffsetScale
     { get => offsetScale; private set => offsetScale = value; }
+
+    public Face[] Faces
+    { get => faces; }
 
     private void Awake()
     {
@@ -36,14 +39,14 @@ public class Cube : MonoBehaviour
             Vector3.forward, Vector3.back
         };
 
-        faces = new GameObject[6];
+        faces = new Face[6];
         Vector3 halfSizeVec = Vector3.one * offsetScale;
         for (int i = 0; i < 6; i++)
         {
-            faces[i] = Instantiate(facePrefab);
+            faces[i] = Instantiate(facePrefab).GetComponent<Face>();
             Transform t = faces[i].transform;
             t.parent = this.transform;
-            t.localPosition = offsets[i] * offsetScale;// - halfSizeVec;
+            t.localPosition = offsets[i] * offsetScale;
             t.localRotation = Quaternion.LookRotation(-offsets[i]);
             t.Rotate(-90, 0, 0);
 
@@ -53,10 +56,6 @@ public class Cube : MonoBehaviour
             {
                 face.SetMaterial(materials[i]);
             }
-
-            //Debug.Log(Vector3.Dot(faces[i].transform.position, faces[i].transform.position + offsets[i]));
-            //if (Vector3.Dot(faces[i].transform.position, offsets[i]) < 0)
-            //    Destroy(faces[i]);
         }
     }
 }
