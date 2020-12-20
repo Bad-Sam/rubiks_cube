@@ -16,6 +16,7 @@ public class RubiksCube : MonoBehaviour
     private float           initialCamZ = 0f;
 
     private CubeSolved      solvedCondition = null;
+    private RotateCube      cubeRotator = null;
 
     private BoxCollider     boxCollider = null;
 
@@ -33,6 +34,7 @@ public class RubiksCube : MonoBehaviour
         boxCollider     = GetComponent<BoxCollider>();
         UpdateView();
     }
+
 
     public bool IsSolved() 
     {
@@ -53,6 +55,8 @@ public class RubiksCube : MonoBehaviour
 
     public IEnumerator RotateFaceAnimated(Plane rotationPlane, float totalAngle, float time = 0.2f, float delta = 0.03f)
     {
+        cubeRotator.allowFullCubeRotation = false;
+
         float cumulatedRotation = 0f;
         for (float currentTime = 0f ; currentTime < time; currentTime += delta)
         {
@@ -66,6 +70,8 @@ public class RubiksCube : MonoBehaviour
         RotateFace(rotationPlane, -cumulatedRotation);
         RotateFace(rotationPlane, totalAngle);
         OnFaceRotationEnd();
+
+        cubeRotator.allowFullCubeRotation = true;
         yield return null;
     }
 
@@ -81,11 +87,7 @@ public class RubiksCube : MonoBehaviour
     {
         //cubes = new Cube[size * size * size];
         GenerateCubes();
-    }
-
-    void Update()
-    {
-
+        cubeRotator = FindObjectOfType(typeof(RotateCube)) as RotateCube;
     }
 
     public void RotateFace(Plane p, float angle)
@@ -177,7 +179,7 @@ public class RubiksCube : MonoBehaviour
     public Plane GetRandomShufflePlane()
     {
         Vector3[] axes =
-{
+        {
             transform.up,
             - transform.up,
             transform.right,
