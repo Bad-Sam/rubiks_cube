@@ -17,7 +17,8 @@ public class RotateFace : MonoBehaviour
     int state = 0;
 
     float currentRotation = 0;
-    float angularSpeed = 0.03f;
+    float angularSpeed = 1f;//0.03f;
+    int inputMode = 0;
 
     void Start()
     {
@@ -55,11 +56,12 @@ public class RotateFace : MonoBehaviour
         Vector3 mouseLoc2D = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mouseLoc2D);
         RaycastHit hitInfo;
-        //Debug.DrawRay(ray.origin, ray.direction * 100, UnityEngine.Color.red, 10F);
+
         if (Physics.Raycast(ray, out hitInfo))
         {
             rotationPlane = new Plane(hitInfo.normal, hitInfo.point);
             firstHitPoint = hitInfo.point;
+            lastHitPoint = firstHitPoint;
 
             state = 1;
         }
@@ -99,18 +101,22 @@ public class RotateFace : MonoBehaviour
         }
     }
 
+    Vector3 lastHitPoint;
+
     void OnDrag()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        float enter;
-        rotationPlane.Raycast(ray, out enter);
+        rotationPlane.Raycast(ray, out float enter);
         Vector3 hitPointProj = ray.origin + enter * ray.direction;
 
         Vector3 cross = Vector3.Cross(rotationPlane.normal, usedAxis.normalized);
-        float dot = Vector3.Dot(hitPointProj - firstHitPoint, usedAxis);
+        float dot = Vector3.Dot(hitPointProj - lastHitPoint, usedAxis);
         Plane p = new Plane(cross, firstHitPoint);
         rubiks.RotateFace(p, dot * angularSpeed);
         currentRotation += dot * angularSpeed;
+
+        if (inputMode == 0)
+            lastHitPoint = hitPointProj;
     }
 
     void OnMouseRelease()
@@ -119,24 +125,20 @@ public class RotateFace : MonoBehaviour
             return;
 
         /* Set the angle of the face to a multiple of 90 degrees. */
-        // TODO : Interpolate
         currentRotation %= 90;
         Vector3 cross = Vector3.Cross(rotationPlane.normal, usedAxis.normalized);
         Plane p = new Plane(cross, firstHitPoint);
         if (currentRotation < 45)
         {
-            //rubiks.RotateFace(p, -currentRotation);
             StartCoroutine(rubiks.RotateFaceAnimated(p, -currentRotation));
         }
         else
         {
-            //rubiks.RotateFace(p, 90 - currentRotation);
             StartCoroutine(rubiks.RotateFaceAnimated(p, 90 - currentRotation));
         }
         currentRotation = 0;
 
         state = 0;
-        //rubiks.OnFaceRotationEnd();
     }
 
 }
