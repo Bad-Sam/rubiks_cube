@@ -99,7 +99,7 @@ public class RotateFace : MonoBehaviour
         Vector3 cross = Vector3.Cross(rotationPlane.normal, usedAxis.normalized);
         float dot = Vector3.Dot(hitPointProj - firstHitPoint, usedAxis);
         Plane p = new Plane(cross, firstHitPoint);
-        rubiks.RotateFace(p, dot * angularSpeed);// dotMax * 10);
+        rubiks.RotateFace(p, dot * angularSpeed);
         currentRotation += dot * angularSpeed;
     }
 

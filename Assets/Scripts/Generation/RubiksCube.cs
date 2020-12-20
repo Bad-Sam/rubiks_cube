@@ -96,12 +96,6 @@ public class RubiksCube : MonoBehaviour
         }
     }
 
-    public void RotateFace(Vector3 normal, float angle)
-    {
-        Plane p = new Plane(normal, cubeOffset * size);
-        RotateFace(p, angle);
-    }
-
     // Adapt the camera position so the Rubik's Cube fits to the screen
     void UpdateView()
     {
