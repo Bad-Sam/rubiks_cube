@@ -21,6 +21,8 @@ public class RubiksCube : MonoBehaviour
 
     private BoxCollider     boxCollider = null;
 
+    int nbMaxAnimatedShuffles = 10;
+
     void Awake()
     {
         cam             = Camera.main;
@@ -28,7 +30,9 @@ public class RubiksCube : MonoBehaviour
         cubeOffset      = cubePrefab.GetComponent<Cube>().OffsetScale;
         solvedCondition = FindObjectOfType(typeof(CubeSolved)) as CubeSolved;
 
-        boxCollider     = GetComponent<BoxCollider>();
+        boxCollider         = GetComponent<BoxCollider>();
+        boxCollider.size    = new Vector3(size, size, size) * 10f;
+
     }
 
 
@@ -168,11 +172,18 @@ public class RubiksCube : MonoBehaviour
         GenerateCubes();
 
         // Shuffle the Rubik's Cube
-        //for (int i = 0; i < shuffle; i++)
-        //{
-        //    Shuffle();
-        //}
-        StartCoroutine(AnimatedShuffle(shuffle));
+        if (shuffle > nbMaxAnimatedShuffles)
+        {
+            for (int i = 0; i < shuffle - nbMaxAnimatedShuffles; i++)
+            {
+                Shuffle();
+            }
+            StartCoroutine(AnimatedShuffle(nbMaxAnimatedShuffles));
+        }
+        else
+        {
+            StartCoroutine(AnimatedShuffle(shuffle));
+        }
     }
 
     private void GenerateCubes()
