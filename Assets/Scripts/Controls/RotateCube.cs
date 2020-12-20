@@ -12,22 +12,21 @@ public class RotateCube : MonoBehaviour
     private float rotSpeed = .01f;
 
     /* ==== Internal variables ==== */
-    private Transform camTransform = null;
-    private Vector3 rotAxis;
-    
+    private Transform   camTransform = null;
+    private Vector3     rotAxis;
+    public  bool        allowFullCubeRotation = true;
 
     /* ==== Methods ==== */
     void Start()
     {
-        Debug.Assert(rubiksTransform != null);
         camTransform = Camera.main.transform;
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && allowFullCubeRotation)
         {
-            // Define an axis in the plane of the camera
+            // Define an axis in the far plane of the camera
             rotAxis = Input.GetAxis("Mouse X") * camTransform.right + Input.GetAxis("Mouse Y") * camTransform.up;
 
             // Rotate it by 90° in the plane of the camera, to make the cube rotate in the same direction as the mouse

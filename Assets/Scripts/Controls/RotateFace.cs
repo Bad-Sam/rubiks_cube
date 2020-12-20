@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class RotateFace : MonoBehaviour
 {
     [SerializeField]
     private RubiksCube rubiks = null;
+
+    private RotateCube cubeRotator = null;
 
     Plane rotationPlane;
     Vector3 firstHitPoint;
@@ -15,6 +18,11 @@ public class RotateFace : MonoBehaviour
 
     float currentRotation = 0;
     float angularSpeed = 0.03f;
+
+    void Start()
+    {
+        cubeRotator = FindObjectOfType(typeof(RotateCube)) as RotateCube;
+    }
 
     // Update is called once per frame
     void Update()
@@ -42,6 +50,8 @@ public class RotateFace : MonoBehaviour
 
     void OnFirstClick()
     {
+        cubeRotator.allowFullCubeRotation = false;
+
         Vector3 mouseLoc2D = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mouseLoc2D);
         RaycastHit hitInfo;
