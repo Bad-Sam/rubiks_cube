@@ -17,7 +17,7 @@ public class RotateFace : MonoBehaviour
     int state = 0;
 
     float currentRotation = 0;
-    float angularSpeed = 1f;//0.03f;
+    float angularSpeed = 3f;
     int inputMode = 0;
 
     private Vector3 lastHitPoint;
