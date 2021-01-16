@@ -1,4 +1,4 @@
-# Rubik's Name
+# Rubik's Cube
 Rubik's cube implementation in Unity 3D, by Sami AMARA and Thomas DALLARD
 
 ## Running the project
