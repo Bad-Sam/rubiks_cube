@@ -4,11 +4,11 @@ The main logic was implemented over the span of 2 days.
 
 ## Running the project
 You can either:
-- run the build, in [Build/RubiksCube.exe](Build/RubiksCube.exe)
+- [download the build](https://github.com/Bad-Sam/rubiks_cube/releases/download/GOLD/RubiksCube.zip), unzip it, and run RubiksCube.exe
 - open the projet in Unity, through [Assets/Scenes/main.unity](Assets/Scenes/main.unity), and hit the "Play" button
 
 ## What is and is not done
-All the features implemented are listed in the [subject](Docs/Subject.pdf) provided.
+All the features implemented are listed in the [subject](Docs/Subject.pdf) provided in this repository.
 
 ## Controls
 |         Input         |           Action          |
@@ -18,7 +18,7 @@ All the features implemented are listed in the [subject](Docs/Subject.pdf) provi
 | Mouse wheel           | Zoom in/out               |
 | Mouse wheel           | Zoom in/out               |
 
-You can see the description of each button in the UI by clicking "Show instructions".
+You can see the description of each button in-game, by pressing the "Show instructions" button.
 
 ## Architecture
 Most of the logic of the game is in the scripts, in [Assets/Scripts/](Assets/Scripts/).
