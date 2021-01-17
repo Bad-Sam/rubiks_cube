@@ -1,4 +1,7 @@
 # Rubik's Cube
+
+![preview.gif](Docs/preview.gif)
+
 Rubik's Cube implementation in Unity 3D, by Sami AMARA and Thomas DALLARD.
 The main logic was implemented over the span of 2 days.
 
